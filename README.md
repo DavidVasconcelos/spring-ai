@@ -2,9 +2,9 @@
 
 ## 🌱 Spring AI Course – Resources & Reference Links
 
-Welcome to the official GitHub repository for the **Spring AI Course**. This course helps you build intelligent applications using the Spring AI framework and integrate powerful LLMs like OpenAI into your Spring Boot apps.
+My GitHub repository for the **[Spring AI Course](https://www.udemy.com/course/java-spring-ai/?referralCode=144430555105E7ADD679)**. This course helps you build intelligent applications using the Spring AI framework and integrate powerful LLMs like OpenAI into your Spring Boot apps.
 
-Below are some carefully curated reference links and tools used throughout the course. Bookmark this information for quick access during development and exploration.
+Below are some carefully curated reference links and tools used throughout the course.
 
 ---
 
@@ -14,7 +14,7 @@ Below are some carefully curated reference links and tools used throughout the c
   The core reference for understanding Spring AI modules, configuration, and supported AI providers.
 
 - **[OpenAI Platform Docs](https://platform.openai.com/docs/overview)**  
-  Learn how to use OpenAI's APIs including ChatGPT, GPT-4, embeddings, and more.
+  Learn how to use OpenAI's APIs, including ChatGPT, GPT-4, embeddings, and more.
 
 ---
 
@@ -40,7 +40,7 @@ Below are some carefully curated reference links and tools used throughout the c
   The seminal research paper that introduced the Transformer architecture behind modern LLMs.
 
 - **[OpenAI Tokenizer Tool](https://platform.openai.com/tokenizer)**  
-  Visualize how OpenAI tokenizes input prompts and estimate token usage.
+  Visualise how OpenAI tokenises input prompts and estimate token usage.
 
 ---
 
@@ -66,17 +66,10 @@ Below are some carefully curated reference links and tools used throughout the c
   Industry-standard framework for distributed tracing and telemetry data.
 
 - **[Grafana](https://grafana.com/)**  
-  Visualization tool for creating dashboards from Prometheus and other data sources.
+  Visualisation tool for creating dashboards from Prometheus and other data sources.
 
 - **[Jaeger Tracing](https://www.jaegertracing.io/)**  
   Distributed tracing platform used to trace and monitor AI request flows.
 
 ---
 
-## 📎 Stay Connected
-
----
-
-📬 For questions or issues, raise a GitHub issue or connect with the course instructor
-
-Happy Learning! 🚀  
