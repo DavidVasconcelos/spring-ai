@@ -7,7 +7,6 @@ spring:
         model: ai/gemma3
         base-url: http://fedora:12434/engines/v1
       api-key: dummy
-
 logging:
   pattern:
     console: "%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n"

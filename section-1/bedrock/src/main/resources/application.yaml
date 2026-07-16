@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: bedrock
+  ai:
+    bedrock:
+      aws:
+        region: ${AWS_REGION}
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+      converse:
+        chat:
+          model: arn:aws:bedrock:sa-east-1:316649820111:inference-profile/global.anthropic.claude-sonnet-4-6
+    model:
+      chat: bedrock-converse
+logging:
+  pattern:
+    console: "%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n"
