@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: spring-ai
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+logging:
+  pattern:
+    console: "%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n"
