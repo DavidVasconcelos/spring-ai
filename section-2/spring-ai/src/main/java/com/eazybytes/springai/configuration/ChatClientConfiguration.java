@@ -10,6 +10,13 @@ public class ChatClientConfiguration {
   private static final String DEFAULT_USER = "How can you help me?";
 
   @Bean
+  public ChatClient defaultChatClient(ChatClient.Builder chatClientBuilder) {
+    return chatClientBuilder
+        .defaultUser(DEFAULT_USER)
+        .build();
+  }
+
+  @Bean
   public ChatClient hrChatClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
         .defaultSystem("""
@@ -45,9 +52,9 @@ public class ChatClientConfiguration {
   public ChatClient customerServiceClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
         .defaultSystem("""
-                        You are a professional customer service assistant which helps drafting email
-                        responses to improve the productivity of the customer support team
-                        """
+            You are a professional customer service assistant which helps drafting email
+            responses to improve the productivity of the customer support team
+            """
         )
         .defaultUser(DEFAULT_USER)
         .build();
