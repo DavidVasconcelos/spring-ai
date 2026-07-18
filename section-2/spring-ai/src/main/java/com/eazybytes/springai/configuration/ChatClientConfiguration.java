@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ChatClientConfiguration {
 
+  private static final String DEFAULT_USER = "How can you help me?";
+
   @Bean
   public ChatClient hrChatClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
@@ -19,7 +21,7 @@ public class ChatClientConfiguration {
             HR policies.
             """
         )
-        .defaultUser("How can you help me?")
+        .defaultUser(DEFAULT_USER)
         .build();
   }
 
@@ -35,8 +37,19 @@ public class ChatClientConfiguration {
             only able to assist with IT support tasks within your defined scope.
             """
         )
-        .defaultUser("How can you help me?")
+        .defaultUser(DEFAULT_USER)
         .build();
   }
 
+  @Bean
+  public ChatClient customerServiceClient(ChatClient.Builder chatClientBuilder) {
+    return chatClientBuilder
+        .defaultSystem("""
+                        You are a professional customer service assistant which helps drafting email
+                        responses to improve the productivity of the customer support team
+                        """
+        )
+        .defaultUser(DEFAULT_USER)
+        .build();
+  }
 }
