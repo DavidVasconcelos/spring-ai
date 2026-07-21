@@ -13,11 +13,14 @@ public class ChatController {
 
   private final ChatClient hrChatClient;
   private final ChatClient helpDeskChatClient;
+  private final ChatClient defaultChatClient;
 
   public ChatController(@Qualifier("hrChatClient") ChatClient hrChatClient,
-      @Qualifier("helpDeskChatClient") ChatClient helpDeskChatClient) {
+      @Qualifier("helpDeskChatClient") ChatClient helpDeskChatClient,
+      @Qualifier("defaultChatClient") ChatClient defaultChatClient) {
     this.hrChatClient = hrChatClient;
     this.helpDeskChatClient = helpDeskChatClient;
+    this.defaultChatClient = defaultChatClient;
   }
 
   @GetMapping("/hr/chat")
@@ -28,9 +31,9 @@ public class ChatController {
         .content();
   }
 
-  @GetMapping("/help-desk/chat")
+  @GetMapping("/general/chat")
   public String helpDeskChat(@RequestParam("message") String message) {
-    return helpDeskChatClient.prompt()
+    return defaultChatClient.prompt()
         .user(message)
         .call()
         .content();

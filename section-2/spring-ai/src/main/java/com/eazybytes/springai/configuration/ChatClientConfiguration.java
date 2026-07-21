@@ -1,6 +1,10 @@
 package com.eazybytes.springai.configuration;
 
+import com.eazybytes.springai.advisor.TokenUsageAuditAdvisor;
+import java.util.List;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,11 +12,14 @@ import org.springframework.context.annotation.Configuration;
 public class ChatClientConfiguration {
 
   private static final String DEFAULT_USER = "How can you help me?";
+  private static final List<String> SENSITIVE_WORDS = List.of("Shakira", "Madonna", "Argentina");
 
   @Bean
   public ChatClient defaultChatClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
         .defaultUser(DEFAULT_USER)
+        .defaultAdvisors(List.of(new SafeGuardAdvisor(SENSITIVE_WORDS), new SimpleLoggerAdvisor(),
+            new TokenUsageAuditAdvisor()))
         .build();
   }
 
@@ -28,6 +35,7 @@ public class ChatClientConfiguration {
             HR policies.
             """
         )
+        .defaultAdvisors(new SimpleLoggerAdvisor())
         .defaultUser(DEFAULT_USER)
         .build();
   }
@@ -44,6 +52,7 @@ public class ChatClientConfiguration {
             only able to assist with IT support tasks within your defined scope.
             """
         )
+        .defaultAdvisors(new TokenUsageAuditAdvisor())
         .defaultUser(DEFAULT_USER)
         .build();
   }
@@ -56,6 +65,7 @@ public class ChatClientConfiguration {
             responses to improve the productivity of the customer support team
             """
         )
+        .defaultAdvisors(new TokenUsageAuditAdvisor())
         .defaultUser(DEFAULT_USER)
         .build();
   }
