@@ -31,8 +31,16 @@ public class ChatController {
         .content();
   }
 
-  @GetMapping("/general/chat")
+  @GetMapping("/help-desk/chat")
   public String helpDeskChat(@RequestParam("message") String message) {
+    return helpDeskChatClient.prompt()
+        .user(message)
+        .call()
+        .content();
+  }
+
+  @GetMapping("/general/chat")
+  public String generalChat(@RequestParam("message") String message) {
     return defaultChatClient.prompt()
         .user(message)
         .call()
