@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.OpenAiChatOptions.Builder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,7 +20,6 @@ public class ChatClientConfiguration {
         .defaultUser(DEFAULT_USER)
         .defaultAdvisors(List.of(new SafeGuardAdvisor(SENSITIVE_WORDS), new SimpleLoggerAdvisor(),
             new TokenUsageAuditAdvisor()))
-        .defaultOptions(getChatOptions())
         .build();
   }
 
@@ -71,13 +68,5 @@ public class ChatClientConfiguration {
         .defaultAdvisors(new TokenUsageAuditAdvisor())
         .defaultUser(DEFAULT_USER)
         .build();
-  }
-
-  private Builder getChatOptions() {
-   return OpenAiChatOptions
-        .builder()
-        .model("gpt-5.4-mini")
-        .temperature(0.8)
-        .maxCompletionTokens(100);
   }
 }
