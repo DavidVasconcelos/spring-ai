@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ChatClientConfiguration {
+public class ChatClientConfig {
 
   private static final String DEFAULT_USER = "How can you help me?";
   private static final List<String> SENSITIVE_WORDS = List.of("Shakira", "Madonna", "Argentina");
