@@ -7,9 +7,17 @@ spring:
       chat:
         model: gpt-5.4-mini
         temperature: 0.8
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+  datasource:
+    url: jdbc:h2:file:./chatmemory;AUTO_SERVER=true
+    driver-class-name: org.h2.Driver
+    username: madan
+    password: 12345
 logging:
-  pattern:
-    console: "%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n"
   level:
     org:
       springframework:
