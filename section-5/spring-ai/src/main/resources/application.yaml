@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: spring-ai
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        model: gpt-5.4-mini
+        temperature: 0.8
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+  datasource:
+    url: jdbc:h2:file:./chatmemory;AUTO_SERVER=true
+    driver-class-name: org.h2.Driver
+    username: madan
+    password: 12345
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
+server:
+  servlet:
+    context-path: /api
