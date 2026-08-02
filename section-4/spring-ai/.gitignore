@@ -36,9 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-#### SDKman ####
-.sdkmanrc
-
 # H2 Database files
 *.mv.db
 *.trace.db
