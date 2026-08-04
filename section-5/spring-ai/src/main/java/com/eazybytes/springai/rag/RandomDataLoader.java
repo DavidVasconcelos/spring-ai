@@ -5,9 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.stereotype.Component;
 
-@Component
+//Moving to HRPolicyLoader
 public class RandomDataLoader {
 
   private static final Logger log = LoggerFactory.getLogger(RandomDataLoader.class);
