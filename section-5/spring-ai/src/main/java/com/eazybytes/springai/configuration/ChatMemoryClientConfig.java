@@ -1,5 +1,6 @@
 package com.eazybytes.springai.configuration;
 
+import com.eazybytes.springai.advisor.TokenUsageAuditAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -23,11 +24,12 @@ public class ChatMemoryClientConfig {
   @Bean("chatMemoryChatClient")
   public ChatClient chatClient(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory) {
     SimpleLoggerAdvisor loggerAdvisor = new SimpleLoggerAdvisor();
+    TokenUsageAuditAdvisor tokenUsageAuditAdvisor = new TokenUsageAuditAdvisor();
     MessageChatMemoryAdvisor memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
         .build();
 
     return chatClientBuilder
-        .defaultAdvisors(loggerAdvisor, memoryAdvisor)
+        .defaultAdvisors(loggerAdvisor, tokenUsageAuditAdvisor, memoryAdvisor)
         .build();
   }
 }

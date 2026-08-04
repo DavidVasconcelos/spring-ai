@@ -1,6 +1,5 @@
 package com.eazybytes.springai.rag;
 
-import jakarta.annotation.PostConstruct;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,6 @@ public class RandomDataLoader {
     this.vectorStore = vectorStore;
   }
 
-  @PostConstruct
   public void loadSentenceIntoVectorStore() {
     List<Document> existing = vectorStore.similaritySearch("Java");
 
