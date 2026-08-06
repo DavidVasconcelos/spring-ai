@@ -16,16 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rag")
 public class RagController {
 
-  private final ChatClient chatClient;
+  private final ChatClient chatMemoryClient;
+  private final ChatClient webSearchRAGClient;
+  ;
 
-  public RagController(@Qualifier("chatMemoryChatClient") ChatClient chatClient) {
-    this.chatClient = chatClient;
+  public RagController(@Qualifier("chatMemoryChatClient") ChatClient chatMemoryClient,
+      @Qualifier("webSearchRAGChatClient") ChatClient webSearchRAGClient) {
+    this.chatMemoryClient = chatMemoryClient;
+    this.webSearchRAGClient = webSearchRAGClient;
   }
 
   @GetMapping("/random/chat")
   public ResponseEntity<String> randomChat(@RequestHeader("username") String username,
       @RequestParam("message") String message) {
-    String answer = buildAnswer(username, message);
+    String answer = buildAnswer(chatMemoryClient, username, message);
 
     return ResponseEntity.ok(answer);
   }
@@ -33,12 +37,20 @@ public class RagController {
   @GetMapping("/document/chat")
   public ResponseEntity<String> documentChat(@RequestHeader("username") String username,
       @RequestParam("message") String message) {
-    String answer = buildAnswer(username, message);
+    String answer = buildAnswer(chatMemoryClient, username, message);
 
     return ResponseEntity.ok(answer);
   }
 
-  private @Nullable String buildAnswer(String username,
+  @GetMapping("/web-search/chat")
+  public ResponseEntity<String> webSearchChat(@RequestHeader("username") String username,
+      @RequestParam("message") String message) {
+    String answer = buildAnswer(webSearchRAGClient, username, message);
+
+    return ResponseEntity.ok(answer);
+  }
+
+  private @Nullable String buildAnswer(ChatClient chatClient, String username,
       String message) {
     return chatClient.prompt()
         .advisors(advisorSpec -> advisorSpec.param(CONVERSATION_ID, username))
