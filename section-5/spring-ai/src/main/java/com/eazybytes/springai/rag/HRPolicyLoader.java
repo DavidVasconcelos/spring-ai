@@ -43,7 +43,7 @@ public class HRPolicyLoader {
     List<Document> documents = tikaDocumentReader.get();
 
     TokenTextSplitter textSplitter = TokenTextSplitter.builder()
-        .withChunkSize(100) //defaultTokens
+        .withChunkSize(200) //defaultTokens
         .withMaxNumChunks(400) //maxTokens
         .build();
 

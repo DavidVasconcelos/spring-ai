@@ -1,6 +1,7 @@
 package com.eazybytes.springai.configuration;
 
 import com.eazybytes.springai.advisor.TokenUsageAuditAdvisor;
+import com.eazybytes.springai.rag.PIIMaskingDocumentPostProcessor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -61,6 +62,7 @@ public class ChatMemoryClientConfig {
                 .similarityThreshold(0.5)
                 .build()
         )
+        .documentPostProcessors(PIIMaskingDocumentPostProcessor.builder())
         .build();
   }
 
