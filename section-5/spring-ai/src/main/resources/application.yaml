@@ -11,7 +11,7 @@ spring:
         model: gpt-5.4-mini
         temperature: 0.8
       embedding:
-        model: text-embedding-3-small
+        model: text-embedding-ada-002
     chat:
       memory:
         repository:
