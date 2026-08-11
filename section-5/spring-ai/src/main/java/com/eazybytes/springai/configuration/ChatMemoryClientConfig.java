@@ -65,6 +65,4 @@ public class ChatMemoryClientConfig {
         .documentPostProcessors(PIIMaskingDocumentPostProcessor.builder())
         .build();
   }
-
-
 }
