@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 @Configuration
-public class OpenCHatClientConfig {
+public class OpenChatClientConfig {
 
   @Bean("openChatClient")
   public ChatClient openChatClient(ChatClient.Builder chatClientBuilder,
