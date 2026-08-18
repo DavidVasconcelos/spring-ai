@@ -1,0 +1,43 @@
+server:
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: spring-ai
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        model: gpt-5.4-mini
+        temperature: 0.8
+      embedding:
+        model: text-embedding-ada-002
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+    vectorstore:
+      qdrant:
+        initialize-schema: true
+        host: localhost
+        port: 6334 #grpc
+        collection-name: eazybytes
+  datasource:
+    url: jdbc:h2:file:./chatmemory;AUTO_SERVER=true
+    driver-class-name: org.h2.Driver
+    username: madan
+    password: 12345
+  docker:
+    compose:
+      stop:
+        command: down
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
+
