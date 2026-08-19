@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ChatClientConfig {
+class ChatClientConfig {
 
   private static final String DEFAULT_USER = "How can you help me?";
   private static final List<String> SENSITIVE_WORDS = List.of("Shakira", "Madonna", "Argentina");
 
   @Bean
-  public ChatClient defaultChatClient(ChatClient.Builder chatClientBuilder) {
+  ChatClient defaultChatClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
         .defaultUser(DEFAULT_USER)
         .defaultAdvisors(List.of(new SafeGuardAdvisor(SENSITIVE_WORDS), new SimpleLoggerAdvisor(),
@@ -24,7 +24,7 @@ public class ChatClientConfig {
   }
 
   @Bean
-  public ChatClient hrChatClient(ChatClient.Builder chatClientBuilder) {
+  ChatClient hrChatClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
         .defaultSystem("""
             You are an internal HR assistant. Your role is to help\s
@@ -41,7 +41,7 @@ public class ChatClientConfig {
   }
 
   @Bean
-  public ChatClient helpDeskChatClient(ChatClient.Builder chatClientBuilder) {
+  ChatClient helpDeskChatClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
         .defaultSystem("""
             You are an internal IT helpdesk assistant. Your role is to assist 
@@ -58,7 +58,7 @@ public class ChatClientConfig {
   }
 
   @Bean
-  public ChatClient customerServiceClient(ChatClient.Builder chatClientBuilder) {
+  ChatClient customerServiceClient(ChatClient.Builder chatClientBuilder) {
     return chatClientBuilder
         .defaultSystem("""
             You are a professional customer service assistant which helps drafting email

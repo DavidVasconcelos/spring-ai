@@ -15,8 +15,10 @@ import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 
+@Profile("!test")
 @Configuration
 public class ChatMemoryClientConfig {
 
@@ -41,7 +43,7 @@ public class ChatMemoryClientConfig {
   }
 
   @Bean
-  public ChatMemory chatMemory(JdbcChatMemoryRepository jdbcChatMemoryRepository) {
+  ChatMemory chatMemory(JdbcChatMemoryRepository jdbcChatMemoryRepository) {
     return MessageWindowChatMemory.builder()
         .maxMessages(10)
         .chatMemoryRepository(jdbcChatMemoryRepository)

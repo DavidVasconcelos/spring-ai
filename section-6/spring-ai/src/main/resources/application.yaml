@@ -28,6 +28,9 @@ spring:
     driver-class-name: org.h2.Driver
     username: madan
     password: 12345
+  jpa:
+    hibernate:
+      ddl-auto: update
   docker:
     compose:
       stop:

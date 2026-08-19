@@ -10,22 +10,25 @@ import org.springframework.ai.vectorstore.redis.cache.semantic.DefaultSemanticCa
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
+@Profile("!test")
 @Configuration
-public class SemanticCacheConfig {
+class SemanticCacheConfig {
 
   @Bean
-  public SemanticCacheAdvisor semanticCacheAdvisor(SemanticCache semanticCache) {
+  SemanticCacheAdvisor semanticCacheAdvisor(SemanticCache semanticCache) {
     return SemanticCacheAdvisor.builder().cache(semanticCache).build();
   }
 
   @Bean
-  public SemanticCache semanticCache(@Qualifier("cacheVectorStore") VectorStore vectorStore, EmbeddingModel embeddingModel) {
-     return DefaultSemanticCache.builder()
-         .vectorStore(vectorStore)
-         .embeddingModel(embeddingModel)
-         .similarityThreshold(0.7)
-         .build();
+  SemanticCache semanticCache(@Qualifier("cacheVectorStore") VectorStore vectorStore,
+      EmbeddingModel embeddingModel) {
+    return DefaultSemanticCache.builder()
+        .vectorStore(vectorStore)
+        .embeddingModel(embeddingModel)
+        .similarityThreshold(0.7)
+        .build();
   }
 
   @Bean("cacheVectorStore")

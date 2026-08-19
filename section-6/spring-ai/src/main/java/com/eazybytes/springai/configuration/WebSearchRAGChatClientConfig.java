@@ -15,10 +15,10 @@ import org.springframework.core.Ordered;
 import org.springframework.web.client.RestClient;
 
 @Configuration
-public class WebSearchRAGChatClientConfig {
+class WebSearchRAGChatClientConfig {
 
   @Bean("webSearchRAGChatClient")
-  public ChatClient chatClient(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory,
+  ChatClient chatClient(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory,
       RestClient.Builder restClientBuilder) {
     Advisor loggerAdvisor = new SimpleLoggerAdvisor(Ordered.LOWEST_PRECEDENCE);
     Advisor tokenUsageAuditAdvisor = new TokenUsageAuditAdvisor();

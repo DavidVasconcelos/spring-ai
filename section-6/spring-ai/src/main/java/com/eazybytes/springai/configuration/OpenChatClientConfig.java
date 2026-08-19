@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
 @Configuration
-public class OpenChatClientConfig {
+class OpenChatClientConfig {
 
   @Bean("openChatClient")
-  public ChatClient openChatClient(ChatClient.Builder chatClientBuilder,
+  ChatClient openChatClient(ChatClient.Builder chatClientBuilder,
       SemanticCacheAdvisor semanticCacheAdvisor) {
     return chatClientBuilder
         .defaultAdvisors(List.of(
