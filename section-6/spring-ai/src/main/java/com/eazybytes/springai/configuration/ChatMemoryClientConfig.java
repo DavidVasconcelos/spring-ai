@@ -1,11 +1,9 @@
 package com.eazybytes.springai.configuration;
 
-import com.eazybytes.springai.advisor.TokenUsageAuditAdvisor;
 import com.eazybytes.springai.rag.PIIMaskingDocumentPostProcessor;
 import org.springframework.ai.chat.cache.semantic.SemanticCacheAdvisor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
@@ -16,7 +14,6 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.Ordered;
 
 @Profile("!test")
 @Configuration
@@ -26,8 +23,6 @@ public class ChatMemoryClientConfig {
   public ChatClient chatClient(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory,
       RetrievalAugmentationAdvisor retrievalAugmentationAdvisor,
       SemanticCacheAdvisor semanticCacheAdvisor) {
-    SimpleLoggerAdvisor loggerAdvisor = new SimpleLoggerAdvisor(Ordered.LOWEST_PRECEDENCE);
-    TokenUsageAuditAdvisor tokenUsageAuditAdvisor = new TokenUsageAuditAdvisor();
     MessageChatMemoryAdvisor memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
         .build();
 
@@ -35,9 +30,7 @@ public class ChatMemoryClientConfig {
         .defaultAdvisors(
             memoryAdvisor,
             retrievalAugmentationAdvisor,
-            tokenUsageAuditAdvisor,
-            semanticCacheAdvisor,
-            loggerAdvisor
+            semanticCacheAdvisor
         )
         .build();
   }

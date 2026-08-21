@@ -43,4 +43,6 @@ logging:
           chat:
             client:
               advisor: DEBUG
-
+audit:
+  token-usage:
+    enabled: true
