@@ -40,4 +40,9 @@ public class HelpDeskTools {
     logger.info("Found {} tickets for user: {}", tickets.size(), username);
     return tickets;
   }
+
+  @Tool(description = "Answer questions related to help desk phone number")
+  void handleHelpDeskNumberQuestions() {
+    throw new RuntimeException("There is no help desk phone number available");
+  }
 }
