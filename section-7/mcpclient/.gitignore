@@ -38,3 +38,9 @@ out/
 
 ### SDKman ###
 .sdkmanrc
+
+# H2 Database files
+*.mv.db
+*.trace.db
+*.h2.db
+*.lock.db
