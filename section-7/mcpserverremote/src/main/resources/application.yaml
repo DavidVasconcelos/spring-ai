@@ -12,6 +12,7 @@ spring:
     mcp:
       server:
         protocol: streamable
+        name: helpdesk-mcp-server
   jpa:
     hibernate:
       ddl-auto: update
