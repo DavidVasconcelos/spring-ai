@@ -10,7 +10,12 @@ spring:
     mcp:
       client:
         stdio:
-          servers-configuration: classpath:mcp-servers.json
+          servers-configuration: classpath:mcp-servers-stdio.json
+        streamable-http:
+          connections:
+            eazybytes:
+              url: http://localhost:8090
+              endpoint: /mcp
 logging:
   level:
     org:

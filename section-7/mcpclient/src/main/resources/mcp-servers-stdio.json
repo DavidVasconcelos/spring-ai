@@ -1,12 +1,5 @@
 {
   "mcpServers": {
-    "spring-ai-mcp": {
-      "command": "/Users/david/.sdkman/candidates/java/25.0.2-graalce/bin/java",
-      "args": [
-        "-jar",
-        "/Users/david/Downloads/teste/mcp/mcpserverstdio-0.0.1-SNAPSHOT.jar"
-      ]
-    },
     "filesystem": {
       "command": "npx",
       "args": [

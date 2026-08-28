@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class McpclientApplication {
+public class McpClientApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(McpclientApplication.class, args);
+	static void main(String[] args) {
+		SpringApplication.run(McpClientApplication.class, args);
 	}
 
 }

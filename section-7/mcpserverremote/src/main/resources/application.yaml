@@ -8,6 +8,10 @@ spring:
     driver-class-name: org.h2.Driver
     username: madan
     password: 12345
+  ai:
+    mcp:
+      server:
+        protocol: streamable
   jpa:
     hibernate:
       ddl-auto: update
