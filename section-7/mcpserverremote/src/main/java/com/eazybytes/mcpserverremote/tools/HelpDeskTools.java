@@ -45,6 +45,11 @@ public class HelpDeskTools {
         username);
     logger.info(exitLogMessage);
     context.info(exitLogMessage);
+    for (int i = 0; i < 10; i++) {
+      int percent = (i * 100) / 10;
+      context.progress(spec -> spec.progress(percent)
+          .message("Fetching tickets for user: " + username + " - " + percent + "% complete"));
+    }
     return tickets;
   }
 }

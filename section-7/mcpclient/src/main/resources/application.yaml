@@ -16,6 +16,7 @@ spring:
             eazybytes:
               url: http://localhost:8090
               endpoint: /mcp
+        request-timeout: 30s
 logging:
   level:
     org:

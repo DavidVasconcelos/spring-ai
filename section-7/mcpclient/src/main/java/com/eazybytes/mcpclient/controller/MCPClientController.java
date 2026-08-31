@@ -3,6 +3,8 @@ package com.eazybytes.mcpclient.controller;
 import com.eazybytes.mcpclient.util.ToolUtil;
 import io.modelcontextprotocol.client.McpSyncClient;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.tool.ToolCallback;
@@ -35,6 +37,7 @@ public class MCPClientController {
         .prompt()
         .user(message + "My username is " + username)
         .tools(toolCallbacks)
+        .toolContext(Map.of("progressToken", UUID.randomUUID().toString()))
         .call()
         .content();
   }
