@@ -13,7 +13,7 @@ public class HelpDeskLogBridge {
 
   @McpLogging(clients = "eazybytes")
   public void onServerLog(McpSchema.LoggingLevel level, String source, String message) {
-    logger.info("Received log form server - Level: {}, Source: {}, Message: {}", level, source,
+    logger.info("Received log from server - Level: {}, Source: {}, Message: {}", level, source,
         message);
   }
 }
