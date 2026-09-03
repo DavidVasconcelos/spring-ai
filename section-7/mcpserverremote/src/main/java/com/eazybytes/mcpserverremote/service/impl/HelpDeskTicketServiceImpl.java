@@ -1,6 +1,7 @@
 package com.eazybytes.mcpserverremote.service.impl;
 
 import com.eazybytes.mcpserverremote.entity.HelpDeskTicket;
+import com.eazybytes.mcpserverremote.enumerator.TicketPriority;
 import com.eazybytes.mcpserverremote.enumerator.TicketStatus;
 import com.eazybytes.mcpserverremote.model.TicketRequest;
 import com.eazybytes.mcpserverremote.repository.HelpDeskTicketRepository;
@@ -17,11 +18,14 @@ public class HelpDeskTicketServiceImpl implements HelpDeskTicketService {
   private final HelpDeskTicketRepository helpDeskTicketRepository;
 
   @Override
-  public HelpDeskTicket createTicket(TicketRequest ticketInput) {
+  public HelpDeskTicket createTicket(TicketRequest ticketInput, String priority,
+      String contactPhone) {
     HelpDeskTicket helpDeskTicket = HelpDeskTicket.builder()
         .issue(ticketInput.issue())
         .username(ticketInput.username())
         .status(TicketStatus.OPEN)
+        .priority(TicketPriority.valueOf(priority.toUpperCase()))
+        .contactPhone(contactPhone)
         .createdAt(LocalDateTime.now())
         .eta(LocalDateTime.now().plusDays(7))
         .build();

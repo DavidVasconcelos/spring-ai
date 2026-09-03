@@ -1,5 +1,6 @@
 package com.eazybytes.mcpserverremote.entity;
 
+import com.eazybytes.mcpserverremote.enumerator.TicketPriority;
 import com.eazybytes.mcpserverremote.enumerator.TicketStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -40,6 +41,11 @@ public class HelpDeskTicket implements Serializable {
 
   @Enumerated(EnumType.STRING)
   private TicketStatus status;
+
+  @Enumerated(EnumType.STRING)
+  private TicketPriority priority;
+
+  private String contactPhone;
 
   private LocalDateTime createdAt;
 

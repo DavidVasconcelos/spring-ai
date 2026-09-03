@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface HelpDeskTicketService {
 
-  HelpDeskTicket createTicket(TicketRequest ticketInput);
+  HelpDeskTicket createTicket(TicketRequest ticketInput, String priority,
+      String contactPhone);
+
   List<HelpDeskTicket> getTicketsByUsername(String username);
 
 }
