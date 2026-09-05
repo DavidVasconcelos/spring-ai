@@ -1,0 +1,27 @@
+server:
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: mcpclient
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+    mcp:
+      client:
+        stdio:
+          servers-configuration: classpath:mcp-servers-stdio.json
+        streamable-http:
+          connections:
+            eazybytes:
+              url: http://localhost:8090
+              endpoint: /mcp
+        request-timeout: 60s
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG

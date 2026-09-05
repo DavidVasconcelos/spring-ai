@@ -1,0 +1,18 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: mcpserverremote
+  datasource:
+    url: jdbc:h2:file:./chatmemory;AUTO_SERVER=true
+    driver-class-name: org.h2.Driver
+    username: madan
+    password: 12345
+  ai:
+    mcp:
+      server:
+        protocol: streamable
+        name: helpdesk-mcp-server
+  jpa:
+    hibernate:
+      ddl-auto: update
