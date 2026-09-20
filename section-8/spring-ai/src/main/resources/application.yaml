@@ -1,8 +1,19 @@
+server:
+  servlet:
+    context-path: /api
 spring:
   application:
     name: spring-ai
-  openai:
-    api-key: ${OPENAI_API_KEY}
-    chat:
-      model: gpt-5.4-mini
-      temperature: 0.8
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:test-key}
+      chat:
+        model: gpt-5.4-mini
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
