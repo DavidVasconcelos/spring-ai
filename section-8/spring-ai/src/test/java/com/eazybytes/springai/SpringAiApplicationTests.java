@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.eazybytes.springai.controller.ChatController;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,7 @@ import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.evaluation.FactCheckingEvaluator;
 import org.springframework.ai.chat.evaluation.RelevancyEvaluator;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.document.Document;
 import org.springframework.ai.evaluation.EvaluationRequest;
 import org.springframework.ai.evaluation.EvaluationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,6 @@ class SpringAiApplicationTests {
   @Autowired
   private ChatModel chatModel;
 
-  private ChatClient chatClient;
   private RelevancyEvaluator relevancyEvaluator;
   private FactCheckingEvaluator factCheckingEvaluator;
 
@@ -47,11 +48,13 @@ class SpringAiApplicationTests {
   @Value("classpath:/promptTemplates/factCheck.st")
   Resource factCheckTemplate;
 
+  @Value("classpath:/promptTemplates/hrPolicy.st")
+  Resource hrPolicyTemplate;
+
   @BeforeEach
   void setup() throws IOException {
     Builder builder = ChatClient.builder(chatModel).defaultAdvisors(new SimpleLoggerAdvisor());
 
-    this.chatClient = builder.build();
     this.relevancyEvaluator = new RelevancyEvaluator(builder);
     this.factCheckingEvaluator = FactCheckingEvaluator
         .builder(builder)
@@ -116,6 +119,36 @@ class SpringAiApplicationTests {
                     Context: %s
                     ========================================
                     """, question, aiResponse, "")
+            .isTrue()
+    );
+  }
+
+  @Test
+  @DisplayName("Should correctly evaluate factual response based on HR policy context (Rag scenario)")
+  @Timeout(value = 30, unit = TimeUnit.SECONDS)
+  void evaluateHrPolicyAnswerWithRagContext() throws IOException {
+    String question = "How many paid leaves do employees get annually ? ";
+
+    String aiResponse = chatController.promptStuffing(question);
+    String retrievedContext = hrPolicyTemplate.getContentAsString(Charset.defaultCharset());
+
+    EvaluationRequest evaluationRequest = new EvaluationRequest(question,
+        List.of(new Document(retrievedContext)),
+        aiResponse);
+
+    EvaluationResponse evaluationResponse = factCheckingEvaluator.evaluate(evaluationRequest);
+
+    assertAll(
+        () -> assertThat(aiResponse).isNotBlank(),
+        () -> assertThat(evaluationResponse.isPass())
+            .withFailMessage("""
+                ========================================
+                The response was not considered factually accurate.
+                Question: %s
+                Response: %s
+                Context: %s
+                ========================================
+                """, question, aiResponse, retrievedContext)
             .isTrue()
     );
   }
