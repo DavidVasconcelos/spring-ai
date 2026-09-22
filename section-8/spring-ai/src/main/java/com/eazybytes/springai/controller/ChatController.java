@@ -2,6 +2,7 @@ package com.eazybytes.springai.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,8 @@ public class ChatController {
   @Value("classpath:/promptTemplates/hrPolicy.st")
   Resource hrPolicyTemplate;
 
-  public ChatController(ChatClient.Builder chatClientBuilder) {
-    this.chatClient = chatClientBuilder
+  public ChatController(@Qualifier("openAiChatBuilder") ChatClient.Builder openAiBuilder) {
+    this.chatClient = openAiBuilder
         .defaultAdvisors(new SimpleLoggerAdvisor())
         .build();
   }
@@ -38,6 +39,4 @@ public class ChatController {
         .call()
         .content();
   }
-
-
 }

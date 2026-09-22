@@ -9,6 +9,13 @@ spring:
       api-key: ${OPENAI_API_KEY:test-key}
       chat:
         model: gpt-5.4-mini
+    ollama:
+      base-url: http://fedora:11434
+      chat:
+        model: llama3.1:8b
+    chat:
+      client:
+        enabled: false
 logging:
   level:
     org:
