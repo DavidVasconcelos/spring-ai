@@ -12,7 +12,8 @@ spring:
     ollama:
       base-url: http://fedora:11434
       chat:
-        model: llama3.1:8b
+        model: bespoke-minicheck:7b
+#        model: llama3.2:3b # test retry
     chat:
       client:
         enabled: false

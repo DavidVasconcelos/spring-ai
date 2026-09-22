@@ -4,6 +4,7 @@ import com.eazybytes.springai.exception.InvalidAnswerException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.evaluation.FactCheckingEvaluator;
@@ -12,11 +13,14 @@ import org.springframework.ai.evaluation.EvaluationResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/evaluate")
 public class SelfEvaluatingChatController {
@@ -41,6 +45,7 @@ public class SelfEvaluatingChatController {
         .build();
   }
 
+  @Retryable(retryFor =  InvalidAnswerException.class, maxAttempts = 5)
   @GetMapping("/chat")
   public String chat(@RequestParam("message") String message) {
     String aiResponse = openAiChatClient.prompt()
@@ -66,5 +71,11 @@ public class SelfEvaluatingChatController {
     if (!evaluationResponse.isPass()) {
       throw new InvalidAnswerException(message, answer);
     }
+  }
+
+  @Recover
+  private String recover(InvalidAnswerException exception) {
+    log.info("Recovering from {}", exception.getMessage());
+    return "I'm sorry, I couldn't answer your question. Please try rephrasing it.";
   }
 }
