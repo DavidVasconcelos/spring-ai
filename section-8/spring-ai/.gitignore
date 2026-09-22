@@ -41,6 +41,3 @@ out/
 *.h2.db
 *.lock.db
 
-
-### SDKman ###
-.sdkmanrc
