@@ -1,0 +1,27 @@
+server:
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: spring-ai
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:test-key}
+      chat:
+        model: gpt-5.4-mini
+    ollama:
+      base-url: http://fedora:11434
+      chat:
+        model: bespoke-minicheck:7b
+#        model: llama3.2:3b # test retry
+    chat:
+      client:
+        enabled: false
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
