@@ -5,3 +5,16 @@ services:
     ports:
       - "6333:6333"
       - "6334:6334"
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - "./prometheus-config.yml:/etc/prometheus/prometheus.yml"
+    networks:
+      - spring-ai
+    ports:
+      - "9090:9090"
+
+networks:
+  spring-ai:
+    driver: bridge
