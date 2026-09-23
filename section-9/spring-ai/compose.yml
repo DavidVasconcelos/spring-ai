@@ -23,6 +23,16 @@ services:
       - "grafana-storage:/var/lib/grafana"
     networks:
       - spring-ai
+  jaeger:
+    image: jaegertracing/jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317" #grpc
+      - "4318:4318" #http
+    environment:
+      COLLLECTOR_OTLP_ENABLED: true
+    networks:
+      - spring-ai
 
 networks:
   spring-ai:

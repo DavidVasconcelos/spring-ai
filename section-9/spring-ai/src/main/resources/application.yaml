@@ -56,3 +56,15 @@ management:
           - health
           - metrics
           - prometheus
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+  tracing:
+    sampling:
+      probability: 1.0 # for real applications between 0.1 and 0.15 is good enough
+  otlp:
+    metrics:
+      export:
+        enabled: false

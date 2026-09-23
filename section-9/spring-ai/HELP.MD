@@ -76,6 +76,50 @@ Follow these steps to link them:
    * **Save:** Click **Apply** in the top right corner to add the panel to your dashboard, then click the **Save icon** (floppy disk) at the top of the screen to name and keep your new dashboard. 
 
 ---
+## Distributed Tracing with Jaeger
+
+Jaeger is used in this project to track the exact journey and latency of your requests—especially useful for seeing exactly how long your Spring AI calls to OpenAI or local LLMs take.
+
+### 1. Spring Boot Configuration
+To send traces from your Spring Boot application to the Jaeger container, ensure your `application.yml` contains the following OpenTelemetry (OTLP) configuration.
+
+*(Note: We explicitly disable OTLP metric exports to prevent 404 errors, as metrics are handled by Prometheus instead).*
+
+```yaml
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # 1.0 records EVERY request (useful for dev). Lower to 0.1 for production.
+  otlp:
+    metrics:
+      export:
+        enabled: false # Forces Spring to use Prometheus for metrics, not Jaeger
+    tracing:
+      export:
+        endpoint: http://localhost:4318/v1/traces
+```
+        
+### 2. Accessing the Jaeger UI
+Once your Docker Compose stack and Spring Boot application are running, and you have triggered at least one endpoint (like /evaluate/chat), you can view the traces.
+
+Open your browser and navigate to http://fedora:16686 (or http://localhost:16686).
+
+In the left sidebar, locate the Service dropdown.
+
+Select your application name (e.g., spring-ai).
+
+Click the Find Traces button at the bottom of the sidebar.
+
+### 3. Reading a Trace
+Click on any of the traces in the results pane to view its timeline. For Spring AI requests, you will be able to see:
+
+The total duration of the HTTP request.
+
+The exact breakdown of how long the LLM took to generate the response.
+
+Internal Spring components mapping the prompt and parsing the AI's output.
+
+---
 
 ### Silencing Java 25 Memory Warnings in IntelliJ IDEA
 
