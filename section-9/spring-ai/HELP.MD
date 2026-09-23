@@ -36,6 +36,46 @@ To view and manage your vector embeddings and collections, you can use the built
 ---
 > **Security Reminder:** Because these are local development databases, these credentials and endpoints are safe for local testing. As discussed previously, ensure you keep any physical `.db` files or local Qdrant storage volumes in your `.gitignore` so local database state is not committed to version control.
 ---
+## Connecting Grafana to Prometheus
+
+Because Grafana and Prometheus are running on the same custom Docker network (`spring-ai`), they can communicate directly using their container names.
+
+Follow these steps to link them:
+
+1. **Access the Grafana UI**  
+   Open your browser and navigate to **`http://fedora:3000`** (or `http://localhost:3000` if you are on the Fedora machine).
+
+2. **Log In**  
+   Use the default credentials:
+   * **Username:** `admin`
+   * **Password:** `admin`  
+     *(Grafana will prompt you to change this password on your first login).*
+
+3. **Add the Prometheus Data Source**
+   * In the left sidebar, click on **Connections** > **Data sources**.
+   * Click the **Add data source** button.
+   * Select **Prometheus** from the list.
+
+4. **Configure the Connection**  
+   In the **Connection** section, look for the **Prometheus server URL** field.
+   * **Do not use localhost.** (Since Grafana is in a container, localhost refers to Grafana itself).
+   * Enter the exact container name and port:  
+     **`http://prometheus:9090`**
+
+5. **Save & Test**  
+   Scroll down to the bottom and click **Save & test**. You should see a green checkmark stating `"Data source is working"`.
+
+6. **Create Your First Spring AI Dashboard**   
+   Now that Prometheus is connected, you can build a custom dashboard to visualize your AI metrics:
+   * **Create a New Dashboard:** In Grafana's left sidebar, click **Dashboards**, then click the **New** button (or **+** icon) and select **New dashboard**.
+   * **Add a Panel:** Click the **+ Add visualization** button.
+   * **Select the Data Source:** Choose the **Prometheus** data source you just configured.
+   * **Query your Metrics:** In the query editor at the bottom, enter a Spring AI metric. For example, to track the total number of chat requests, type:
+      `spring_ai_chat_client_requests_seconds_count`
+   * **Visualize:** Click **Run queries** (or press Shift+Enter) to see your data graph appear.
+   * **Save:** Click **Apply** in the top right corner to add the panel to your dashboard, then click the **Save icon** (floppy disk) at the top of the screen to name and keep your new dashboard. 
+
+---
 
 ### Silencing Java 25 Memory Warnings in IntelliJ IDEA
 
