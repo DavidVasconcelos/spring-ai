@@ -1,0 +1,138 @@
+# Local Development Resources Guide
+
+This document provides the necessary instructions and credentials to access the local databases and tools for this application.
+
+## H2 Database
+
+To view and manage your local relational database state, ensure your Spring Boot application is currently running and navigate to the following URL in your web browser:
+
+**Console URL:** [http://localhost:8080/api/h2-console](http://localhost:8080/api/h2-console)
+
+### Login Credentials
+
+Use the following credentials to authenticate into the H2 console:
+
+| Field | Value |
+| :--- | :--- |
+| **Username** | `madan` |
+| **Password** | `12345` |
+
+### Connection Settings
+
+When the H2 login screen appears, you must ensure the **JDBC URL** matches the exact connection string defined in your `application.yml` or `application.properties` file (for example, `jdbc:h2:mem:testdb`).
+
+If the JDBC URL on the login screen does not match your application's configuration, you will successfully log in, but you will be looking at a completely empty database rather than the one your application is actively using.
+
+---
+
+## Qdrant Vector Database
+
+To view and manage your vector embeddings and collections, you can use the built-in Qdrant Web UI. Ensure your local Qdrant instance (likely running via Docker/Testcontainers) is active and navigate to:
+
+**Dashboard URL:** [http://localhost:6333/dashboard](http://localhost:6333/dashboard)
+
+> **Note:** The local Qdrant dashboard does not require a username or password by default.
+
+---
+> **Security Reminder:** Because these are local development databases, these credentials and endpoints are safe for local testing. As discussed previously, ensure you keep any physical `.db` files or local Qdrant storage volumes in your `.gitignore` so local database state is not committed to version control.
+---
+## Connecting Grafana to Prometheus
+
+Because Grafana and Prometheus are running on the same custom Docker network (`spring-ai`), they can communicate directly using their container names.
+
+Follow these steps to link them:
+
+1. **Access the Grafana UI**  
+   Open your browser and navigate to **`http://fedora:3000`** (or `http://localhost:3000` if you are on the Fedora machine).
+
+2. **Log In**  
+   Use the default credentials:
+   * **Username:** `admin`
+   * **Password:** `admin`  
+     *(Grafana will prompt you to change this password on your first login).*
+
+3. **Add the Prometheus Data Source**
+   * In the left sidebar, click on **Connections** > **Data sources**.
+   * Click the **Add data source** button.
+   * Select **Prometheus** from the list.
+
+4. **Configure the Connection**  
+   In the **Connection** section, look for the **Prometheus server URL** field.
+   * **Do not use localhost.** (Since Grafana is in a container, localhost refers to Grafana itself).
+   * Enter the exact container name and port:  
+     **`http://prometheus:9090`**
+
+5. **Save & Test**  
+   Scroll down to the bottom and click **Save & test**. You should see a green checkmark stating `"Data source is working"`.
+
+6. **Create Your First Spring AI Dashboard**   
+   Now that Prometheus is connected, you can build a custom dashboard to visualize your AI metrics:
+   * **Create a New Dashboard:** In Grafana's left sidebar, click **Dashboards**, then click the **New** button (or **+** icon) and select **New dashboard**.
+   * **Add a Panel:** Click the **+ Add visualization** button.
+   * **Select the Data Source:** Choose the **Prometheus** data source you just configured.
+   * **Query your Metrics:** In the query editor at the bottom, enter a Spring AI metric. For example, to track the total number of chat requests, type:
+      `spring_ai_chat_client_requests_seconds_count`
+   * **Visualize:** Click **Run queries** (or press Shift+Enter) to see your data graph appear.
+   * **Save:** Click **Apply** in the top right corner to add the panel to your dashboard, then click the **Save icon** (floppy disk) at the top of the screen to name and keep your new dashboard. 
+
+---
+## Distributed Tracing with Jaeger
+
+Jaeger is used in this project to track the exact journey and latency of your requests—especially useful for seeing exactly how long your Spring AI calls to OpenAI or local LLMs take.
+
+### 1. Spring Boot Configuration
+To send traces from your Spring Boot application to the Jaeger container, ensure your `application.yml` contains the following OpenTelemetry (OTLP) configuration.
+
+*(Note: We explicitly disable OTLP metric exports to prevent 404 errors, as metrics are handled by Prometheus instead).*
+
+```yaml
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # 1.0 records EVERY request (useful for dev). Lower to 0.1 for production.
+  otlp:
+    metrics:
+      export:
+        enabled: false # Forces Spring to use Prometheus for metrics, not Jaeger
+    tracing:
+      export:
+        endpoint: http://localhost:4318/v1/traces
+```
+        
+### 2. Accessing the Jaeger UI
+Once your Docker Compose stack and Spring Boot application are running, and you have triggered at least one endpoint (like /evaluate/chat), you can view the traces.
+
+Open your browser and navigate to http://fedora:16686 (or http://localhost:16686).
+
+In the left sidebar, locate the Service dropdown.
+
+Select your application name (e.g., spring-ai).
+
+Click the Find Traces button at the bottom of the sidebar.
+
+### 3. Reading a Trace
+Click on any of the traces in the results pane to view its timeline. For Spring AI requests, you will be able to see:
+
+The total duration of the HTTP request.
+
+The exact breakdown of how long the LLM took to generate the response.
+
+Internal Spring components mapping the prompt and parsing the AI's output.
+
+---
+
+### Silencing Java 25 Memory Warnings in IntelliJ IDEA
+
+If you are running the application using Java 25+, you may see console warnings regarding `sun.misc.Unsafe` or restricted native access. This is caused by high-performance libraries (like Netty and gRPC) transitioning to the new Java memory APIs.
+
+When starting the application via the terminal using `./gradlew bootRun`, these warnings are handled automatically by the `build.gradle` configuration. However, **IntelliJ IDEA bypasses Gradle** when you click the "Play" button, meaning you must add the JVM arguments directly to the IDE.
+
+**To fix this in IntelliJ:**
+
+1. In the top toolbar next to the green Play/Run button, click your application name and select **Edit Configurations...**
+2. In the configuration window, look for the **VM options** field.
+   *(Note: If you do not see it, click the blue **Modify options** text or the ⚙️ gear icon, and check **Add VM options**).*
+3. Paste the following arguments into the **VM options** box:
+
+   ```text
+   --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED
