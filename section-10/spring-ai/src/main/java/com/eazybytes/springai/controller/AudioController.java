@@ -61,10 +61,7 @@ public class AudioController {
   @GetMapping("/speech")
   String speech(@RequestParam("message") String message) throws IOException {
     byte[] audioBytes = textToSpeechModel.call(message);
-    Path path = Paths.get(buildFileName("speech"));
-    Files.createDirectories(path.getParent());
-    Files.write(path, audioBytes);
-    return "MP3 saved. successfully to " + path.toAbsolutePath();
+    return saveAudio(audioBytes, "speech");
   }
 
   @GetMapping("/speech-options")
@@ -77,9 +74,14 @@ public class AudioController {
             .format(OpenAiAudioSpeechOptions.AudioResponseFormat.MP3.getValue())
             .model("gpt-4o-mini-tts")
             .build()));
-    Path path = Paths.get(buildFileName("speech-options"));
+
+    return saveAudio(speechResponse.getResult().getOutput(), "speech-options");
+  }
+
+  private String saveAudio(byte[] audioBytes, String filePrefix) throws IOException {
+    Path path = Paths.get(buildFileName(filePrefix));
     Files.createDirectories(path.getParent());
-    Files.write(path, speechResponse.getResult().getOutput());
+    Files.write(path, audioBytes);
     return "MP3 saved. successfully to " + path.toAbsolutePath();
   }
 

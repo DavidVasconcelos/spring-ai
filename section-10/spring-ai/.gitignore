@@ -38,4 +38,10 @@ out/
 
 ### Audios ###
 /audios
+
+### Images ###
+/images
+
 *.DS_Store
+
+
