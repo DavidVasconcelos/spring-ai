@@ -1,3 +1,19 @@
+server:
+  servlet:
+    context-path: /api
 spring:
   application:
     name: spring-ai
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        model: gpt-5.4-mini
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
