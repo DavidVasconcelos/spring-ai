@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record RefundResult(
     Long refundId,
+    String refundNumber,
     String orderNumber,
     BigDecimal amount,
     String currency,

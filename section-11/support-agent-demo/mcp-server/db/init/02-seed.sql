@@ -112,29 +112,29 @@ INSERT INTO payments (order_id, amount, currency, payment_method, transaction_re
 -- (The current 3rd-time refund and the 4471 duplicate refund are what the
 --  agent is expected to CREATE at runtime, so they are intentionally absent.)
 -- ---------------------------------------------------------------------------
-INSERT INTO refunds (order_id, payment_id, amount, currency, reason, refund_type, status, created_at) VALUES
-  (4, 5, 129.99, 'USD', 'Cracked jug on arrival — 1st incident, replacement issued', 'WARRANTY', 'PROCESSED', TIMESTAMP(CURDATE() - INTERVAL 175 DAY, '10:00:00')),
-  (5, 6, 129.99, 'USD', 'Cracked jug again — 2nd incident, replacement issued',       'WARRANTY', 'PROCESSED', TIMESTAMP(CURDATE() - INTERVAL 94 DAY,  '14:30:00'));
+INSERT INTO refunds (order_id, refund_number, payment_id, amount, currency, reason, refund_type, status, created_at) VALUES
+  (4, 'f0b587a5-b457-4fb8-9ca0-88ccdcfe979f', 5, 129.99, 'USD', 'Cracked jug on arrival — 1st incident, replacement issued', 'WARRANTY', 'PROCESSED', TIMESTAMP(CURDATE() - INTERVAL 175 DAY, '10:00:00')),
+  (5, '97b8e0b2-9f14-434f-b03a-6221beba5f29',6, 129.99, 'USD', 'Cracked jug again — 2nd incident, replacement issued',       'WARRANTY', 'PROCESSED', TIMESTAMP(CURDATE() - INTERVAL 94 DAY,  '14:30:00'));
 
 -- ---------------------------------------------------------------------------
 -- Support tickets — prior history so the agent can SEE this is a repeat.
 -- ---------------------------------------------------------------------------
 INSERT INTO support_tickets
-  (customer_id, order_id, product_id, channel, subject, raw_message, detected_language, intent, sentiment, status, resolution, created_at, resolved_at) VALUES
+  (customer_id, ticket_number, order_id, product_id, channel, subject, raw_message, detected_language, intent, sentiment, status, resolution, created_at, resolved_at) VALUES
   -- Sarah, incident #1
-  (1, 4, 1, 'EMAIL', 'Blender jug arrived cracked',
+  (1,'662ae191-4194-4d4b-aaae-846656d820e2', 4, 1, 'EMAIL', 'Blender jug arrived cracked',
      'Hi, my new AeroBlend blender arrived with a crack along the jug. Can you help?',
      'en', 'WARRANTY_CLAIM', 'NEGATIVE', 'RESOLVED',
      'Replacement unit shipped + full refund processed (goodwill).',
      TIMESTAMP(CURDATE() - INTERVAL 178 DAY, '09:12:00'), TIMESTAMP(CURDATE() - INTERVAL 175 DAY, '10:05:00')),
   -- Sarah, incident #2
-  (1, 5, 1, 'EMAIL', 'Cracked jug AGAIN',
+  (1,'10ce31b1-8d90-40f0-9622-5ecf9961de66', 5, 1, 'EMAIL', 'Cracked jug AGAIN',
      'This is the second time the jug has cracked. Getting frustrated.',
      'en', 'WARRANTY_CLAIM', 'ANGRY', 'RESOLVED',
      'Second replacement shipped + refund processed. Flagged product quality issue.',
      TIMESTAMP(CURDATE() - INTERVAL 98 DAY, '18:40:00'), TIMESTAMP(CURDATE() - INTERVAL 94 DAY, '14:35:00')),
   -- Rohan, an earlier minor query (so he is a known customer)
-  (4, NULL, NULL, 'EMAIL', 'Order tracking',
+  (4,'d8aff25a-c518-415a-9bc2-d2e755fe7741', NULL, NULL, 'EMAIL', 'Order tracking',
      'Where is my order? / mera order kahan hai?',
      'en+hi', 'GENERAL', 'NEUTRAL', 'RESOLVED',
      'Shared tracking link; delivered next day.',
