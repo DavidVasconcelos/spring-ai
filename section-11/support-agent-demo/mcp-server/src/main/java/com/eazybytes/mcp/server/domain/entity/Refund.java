@@ -39,6 +39,7 @@ public class Refund {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Builder.Default
   @Column(name = "refund_number", nullable = false, updatable = false, unique = true)
   private String refundNumber = UUID.randomUUID().toString();
 

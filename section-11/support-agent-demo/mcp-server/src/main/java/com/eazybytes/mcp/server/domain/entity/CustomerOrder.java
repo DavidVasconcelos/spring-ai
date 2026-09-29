@@ -63,9 +63,11 @@ public class CustomerOrder {
 
   private String currency;
 
+  @Builder.Default
   @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
   private List<OrderItem> items = new ArrayList<>();
 
+  @Builder.Default
   @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
   private List<Payment> payments = new ArrayList<>();
 

@@ -124,8 +124,8 @@ public class SupportQueryTools {
   public List<ProductInfo> searchProducts(
       @McpToolParam(description = "A product name or SKU fragment, e.g. \"X200\" or \"blender\"")
       String query) {
-    String q = query.trim();
-    return products.findByNameContainingIgnoreCaseOrSkuContainingIgnoreCase(q, q)
+    String trimmed = query.trim();
+    return products.findByNameContainingIgnoreCaseOrSkuContainingIgnoreCase(trimmed, trimmed)
         .stream()
         .map(productMapper::toProductInfo)
         .toList();

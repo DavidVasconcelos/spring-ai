@@ -40,6 +40,7 @@ public class SupportTicket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @Column(name = "ticket_number", nullable = false, updatable = false, unique = true)
     private String ticketNumber = UUID.randomUUID().toString();
 

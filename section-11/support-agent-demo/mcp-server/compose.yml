@@ -1,6 +1,6 @@
 services:
-  qdrant:
-    image: mysql/latest
+  mysql:
+    image: mysql
     container_name: support-agent-mysql
     environment:
       - "MYSQL_DATABASE=mydatabase"
