@@ -157,7 +157,6 @@ public class SupportActionTools {
         .currency(order.getCurrency())
         .order(order)
         .reason(reason)
-        .refundNumber(order.getOrderNumber())
         .refundType(refundType)
         .status(RefundStatus.PROCESSED)
         .build();
