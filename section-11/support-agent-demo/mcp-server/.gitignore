@@ -1,3 +1,4 @@
+HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -34,10 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-
-# H2 Database files
-*.mv.db
-*.trace.db
-*.h2.db
-*.lock.db
