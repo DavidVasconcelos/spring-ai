@@ -53,15 +53,11 @@ public class Customer {
     if (!(o instanceof Customer customer)) {
       return false;
     }
-    return Objects.equals(id, customer.id) && Objects.equals(fullName,
-        customer.fullName) && Objects.equals(email, customer.email)
-        && Objects.equals(phone, customer.phone) && Objects.equals(
-        preferredLanguage, customer.preferredLanguage) && loyaltyTier == customer.loyaltyTier
-        && Objects.equals(createdAt, customer.createdAt);
+    return Objects.equals(email, customer.email);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, fullName, email, phone, preferredLanguage, loyaltyTier, createdAt);
+    return Objects.hashCode(email);
   }
 }

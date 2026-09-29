@@ -17,6 +17,7 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,48 +35,46 @@ import lombok.ToString;
 @Table(name = "refunds")
 public class Refund {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private CustomerOrder order;
+  @Column(name = "refund_number", nullable = false, updatable = false, unique = true)
+  private String refundNumber = UUID.randomUUID().toString();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "order_id")
+  private CustomerOrder order;
 
-    private BigDecimal amount;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "payment_id")
+  private Payment payment;
 
-    private String currency;
+  private BigDecimal amount;
 
-    private String reason;
+  private String currency;
 
-    @Enumerated(EnumType.STRING)
-    private RefundType refundType;
+  private String reason;
 
-    @Enumerated(EnumType.STRING)
-    private RefundStatus status;
+  @Enumerated(EnumType.STRING)
+  private RefundType refundType;
 
-    @Column(insertable = false, updatable = false)
-    private LocalDateTime createdAt;
+  @Enumerated(EnumType.STRING)
+  private RefundStatus status;
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Refund refund)) {
-            return false;
-        }
-      return Objects.equals(id, refund.id) && Objects.equals(order, refund.order)
-            && Objects.equals(payment, refund.payment) && Objects.equals(amount,
-            refund.amount) && Objects.equals(currency, refund.currency)
-            && Objects.equals(reason, refund.reason) && refundType == refund.refundType
-            && status == refund.status && Objects.equals(createdAt, refund.createdAt);
+  @Column(insertable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Refund refund)) {
+      return false;
     }
+    return Objects.equals(refundNumber, refund.refundNumber);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, order, payment, amount, currency, reason, refundType, status,
-            createdAt);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(refundNumber);
+  }
 }

@@ -32,39 +32,35 @@ import lombok.ToString;
 @Table(name = "payments")
 public class Payment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private CustomerOrder order;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "order_id")
+  private CustomerOrder order;
 
-    private BigDecimal amount;
+  private BigDecimal amount;
 
-    private String currency;
+  private String currency;
 
-    private String paymentMethod;
+  private String paymentMethod;
 
-    private String transactionRef;
+  private String transactionRef;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
+  @Enumerated(EnumType.STRING)
+  private PaymentStatus status;
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Payment payment)) {
-            return false;
-        }
-      return Objects.equals(id, payment.id) && Objects.equals(order, payment.order)
-            && Objects.equals(amount, payment.amount) && Objects.equals(currency,
-            payment.currency) && Objects.equals(paymentMethod, payment.paymentMethod)
-            && Objects.equals(transactionRef, payment.transactionRef)
-            && status == payment.status;
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Payment payment)) {
+      return false;
     }
+    return Objects.equals(transactionRef, payment.transactionRef);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, order, amount, currency, paymentMethod, transactionRef, status);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(transactionRef);
+  }
 }

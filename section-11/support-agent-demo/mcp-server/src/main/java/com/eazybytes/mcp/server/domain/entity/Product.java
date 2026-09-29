@@ -26,52 +26,45 @@ import lombok.ToString;
 @Table(name = "products")
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String sku;
+  private String sku;
 
-    private String name;
+  private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+  @Column(columnDefinition = "TEXT")
+  private String description;
 
-    private String category;
+  private String category;
 
-    private BigDecimal price;
+  private BigDecimal price;
 
-    private String currency;
+  private String currency;
 
-    /**
-     * Product-agnostic attribute bag stored as native MySQL JSON, surfaced here
-     * as the raw JSON string so any product category (voltage, page count,
-     * apparel size, ...) flows through untouched.
-     */
-    @Column(columnDefinition = "json")
-    private String specifications;
+  /**
+   * Product-agnostic attribute bag stored as native MySQL JSON, surfaced here as the raw JSON
+   * string so any product category (voltage, page count, apparel size, ...) flows through
+   * untouched.
+   */
+  @Column(columnDefinition = "json")
+  private String specifications;
 
-    private Integer warrantyMonths;
+  private Integer warrantyMonths;
 
-    private Integer stockQuantity;
+  private Integer stockQuantity;
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Product product)) {
-            return false;
-        }
-      return Objects.equals(id, product.id) && Objects.equals(sku, product.sku)
-            && Objects.equals(name, product.name) && Objects.equals(description,
-            product.description) && Objects.equals(category, product.category)
-            && Objects.equals(price, product.price) && Objects.equals(currency,
-            product.currency) && Objects.equals(specifications, product.specifications)
-            && Objects.equals(warrantyMonths, product.warrantyMonths)
-            && Objects.equals(stockQuantity, product.stockQuantity);
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Product product)) {
+      return false;
     }
+    return Objects.equals(sku, product.sku);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, sku, name, description, category, price, currency, specifications,
-            warrantyMonths, stockQuantity);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(sku);
+  }
 }

@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "support_tickets")
@@ -26,6 +27,9 @@ public class SupportTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "ticket_number", nullable = false, updatable = false, unique = true)
+    private String ticketNumber = UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
@@ -71,20 +75,11 @@ public class SupportTicket {
         if (!(o instanceof SupportTicket that)) {
             return false;
         }
-      return Objects.equals(id, that.id) && Objects.equals(customer, that.customer)
-            && Objects.equals(order, that.order) && Objects.equals(product,
-            that.product) && channel == that.channel && Objects.equals(subject, that.subject)
-            && Objects.equals(rawMessage, that.rawMessage) && Objects.equals(
-            detectedLanguage, that.detectedLanguage) && intent == that.intent
-            && sentiment == that.sentiment && status == that.status && Objects.equals(
-            resolution, that.resolution) && Objects.equals(createdAt, that.createdAt)
-            && Objects.equals(resolvedAt, that.resolvedAt);
+      return Objects.equals(ticketNumber, that.ticketNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customer, order, product, channel, subject, rawMessage,
-            detectedLanguage,
-            intent, sentiment, status, resolution, createdAt, resolvedAt);
+        return Objects.hashCode(ticketNumber);
     }
 }

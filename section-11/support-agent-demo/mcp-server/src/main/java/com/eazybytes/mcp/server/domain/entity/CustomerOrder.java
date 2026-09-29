@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,8 +29,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Maps the {@code orders} table. Named {@code CustomerOrder} because
- * {@code Order} is an SQL reserved word and an unhelpfully generic type name.
+ * Maps the {@code orders} table. Named {@code CustomerOrder} because {@code Order} is an SQL
+ * reserved word and an unhelpfully generic type name.
  */
 @Getter
 @Setter
@@ -41,33 +42,46 @@ import lombok.ToString;
 @Table(name = "orders")
 public class CustomerOrder {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String orderNumber;
+  private String orderNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "customer_id")
+  private Customer customer;
 
-    private LocalDate orderDate;
+  private LocalDate orderDate;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+  @Enumerated(EnumType.STRING)
+  private OrderStatus status;
 
-    private String shippingAddress;
+  private String shippingAddress;
 
-    private BigDecimal totalAmount;
+  private BigDecimal totalAmount;
 
-    private String currency;
+  private String currency;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> items = new ArrayList<>();
+  @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+  private List<OrderItem> items = new ArrayList<>();
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<Payment> payments = new ArrayList<>();
+  @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+  private List<Payment> payments = new ArrayList<>();
 
-    @Column(insertable = false, updatable = false)
-    private LocalDateTime createdAt;
+  @Column(insertable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof CustomerOrder that)) {
+      return false;
+    }
+    return Objects.equals(orderNumber, that.orderNumber);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(orderNumber);
+  }
 }

@@ -123,6 +123,7 @@ CREATE TABLE payments (
 -- ---------------------------------------------------------------------------
 CREATE TABLE refunds (
     id          BIGINT        NOT NULL AUTO_INCREMENT,
+    refund_number             VARCHAR(36) NOT NULL,
     order_id    BIGINT        NOT NULL,
     payment_id  BIGINT,                       -- which charge is being reversed
     amount      DECIMAL(10,2) NOT NULL,
@@ -147,6 +148,7 @@ CREATE TABLE refunds (
 -- ---------------------------------------------------------------------------
 CREATE TABLE support_tickets (
     id                BIGINT      NOT NULL AUTO_INCREMENT,
+    ticket_number     VARCHAR(36) NOT NULL,
     customer_id       BIGINT      NOT NULL,
     order_id          BIGINT,                 -- nullable: pre-sales has no order
     product_id        BIGINT,                 -- nullable: not always product-specific
