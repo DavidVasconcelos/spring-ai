@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: support-agent
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+
+
+
