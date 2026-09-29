@@ -4,6 +4,35 @@ spring:
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
-
-
-
+    mcp:
+      client:
+        streamable-http:
+          connections:
+            support-agent:
+              url: http://localhost:8090
+              endpoint: /mcp
+  # ----------------------------------------------------------------------
+  # Outbound mail (SMTP) - used only to SEED the fake inbox with test emails.
+  # Points at the Mailpit container from compose.yaml.
+  # ----------------------------------------------------------------------
+  mail:
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+# ----------------------------------------------------------------------
+# Inbox monitoring (Mailpit REST API) - what the agent watches.
+# ----------------------------------------------------------------------
+support-agent:
+  inbox:
+    base-url: http://localhost:8025
+    # Address the agent's mailbox uses (recipient when seeding test mail).
+    address: support@example.com
+    # How often to poll the inbox, in milliseconds.
+    poll-interval: 10000
+    # Max unread messages pulled per poll.
+    batch-size: 50
