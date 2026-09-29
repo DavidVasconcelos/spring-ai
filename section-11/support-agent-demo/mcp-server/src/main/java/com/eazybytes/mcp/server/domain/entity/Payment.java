@@ -51,6 +51,8 @@ public class Payment {
   @Enumerated(EnumType.STRING)
   private PaymentStatus status;
 
+  private LocalDateTime chargedAt;
+
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof Payment payment)) {
