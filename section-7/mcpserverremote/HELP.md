@@ -54,6 +54,8 @@ npx @modelcontextprotocol/inspector
 
 ### Breakdown
 
+## GitHub MCP Server
+
 * `npx @modelcontextprotocol/inspector`: Launches the Inspector proxy and web UI.
 * `transport:` stdio
 * `comannd:` docker
@@ -73,14 +75,14 @@ npx @modelcontextprotocol/inspector
 
 ---
 
-## 2. SSE / Streamable HTTP: Local Spring Boot Server
+## SSE / Streamable HTTP: Local Spring Boot Server
 
 This configuration connects the Inspector to your local Spring Boot 4 MCP server over HTTP using Server-Sent Events (SSE). Unlike `stdio`, HTTP connections are configured directly in the Inspector's web interface rather than via the CLI.
 
 ### The Configuration Target
 
-* **URL:** `http://localhost:8090/mcp`
-* **Transport:** streamable-http
+* `transport:` streamable-http
+* `URL:` `http://localhost:8090/mcp`
 
 ### How to use it
 

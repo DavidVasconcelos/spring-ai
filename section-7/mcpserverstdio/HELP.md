@@ -17,3 +17,92 @@ When starting the application via the terminal using `./gradlew bootRun`, these 
 
    ```text
    --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED
+
+# Using the MCP Inspector
+
+The Model Context Protocol (MCP) Inspector is a web-based diagnostic tool used to test, debug, and interact with MCP servers. It supports multiple transport layers, including standard input/output (Stdio) and HTTP Server-Sent Events (SSE).
+
+Below is the documentation on how to configure and connect the Inspector to two different server environments.
+
+## Prerequisites
+
+* **Node.js** installed (to run `npx @modelcontextprotocol/inspector`)
+* **Docker** installed and running (for the GitHub MCP server)
+* A valid **GitHub Personal Access Token** (for the GitHub MCP server)
+
+---
+
+## 1. Stdio Connection: Dockerized GitHub MCP Server
+
+This configuration connects the Inspector to an official GitHub MCP server running inside a Docker container. Because it uses the `stdio` transport, you can pass the entire Docker execution command directly to the Inspector CLI.
+
+### The Command
+
+```bash
+export GITHUB_PERSONAL_ACCESS_TOKEN="your_actual_token_here"
+
+npx @modelcontextprotocol/inspector 
+
+```
+### How to use it
+
+1. Run the command above in your terminal.
+2. The terminal will output a local URL (typically `http://localhost:5173`).
+3. Open that URL in your browser.
+4. The Inspector will automatically default to the **Command** tab with your Docker configuration pre-loaded. Click **Connect**.
+
+### 1. Breakdown
+
+## GitHub MCP Server
+
+* `npx @modelcontextprotocol/inspector`: Launches the Inspector proxy and web UI.
+* `transport:` stdio
+* `comannd:` docker
+* `arguments`:
+  ```
+  run
+  -i
+  --rm
+  -e
+  GITHUB_PERSONAL_ACCESS_TOKEN
+  ghcr.io/github/github-mcp-server
+  ```
+* `docker run -i`: Runs the container in interactive mode (crucial for `stdio` communication to work).
+* `--rm`: Automatically cleans up and removes the container when you close the Inspector.
+* `-e GITHUB_PERSONAL_ACCESS_TOKEN`: Passes your local environment variable into the container so the server can authenticate with the GitHub API.
+
+
+---
+
+## Stdio Local
+
+This configuration connects the Inspector to your local Spring Boot 4 MCP server over HTTP using Server-Sent Events (SSE). Unlike `stdio`, HTTP connections are configured directly in the Inspector's web interface rather than via the CLI.
+
+### The Configuration Target
+
+* `transport:` stdio
+* `comannd:` java
+* `arguments`:
+  ```
+  -jar
+  /Users/david/Workspace/personal/spring-ai/section-7/mcpserverstdio/build/libs/mcpserverstdio-0.0.1-SNAPSHOT.jar
+  ```
+  > **Note on File:** Add the exact location of the jar file
+  
+
+### How to use it
+
+1. Ensure your Spring Boot application is running and accessible at port `8090`.
+2. Launch the Inspector without any command-line arguments:
+```bash
+npx @modelcontextprotocol/inspector
+
+```
+
+
+3. Open the provided local URL (e.g., `http://localhost:5173`) in your browser.
+4. In the Inspector UI, select the **SSE** tab (instead of Command).
+5. In the **URL** input field, paste: `http://localhost:8090/mcp`
+6. Click **Connect**.
+
+> **Note on CORS:** If the Inspector fails to connect, ensure your Spring Boot server is configured to allow Cross-Origin Resource Sharing (CORS) for `http://localhost:5173`, as the Inspector UI runs on a different port than your backend.

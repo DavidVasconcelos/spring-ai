@@ -7,8 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.io.Serial;
-import java.io.Serializable;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -24,13 +23,11 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "helpdesk_tickets")
-public class HelpDeskTicket implements Serializable {
+@Entity
+@Table(name = "helpdesk_tickets")
+public class HelpDeskTicket {
 
-  @Serial
-  private static final long serialVersionUID = 8199335707109071496L;
-
-  @Id
+ @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
