@@ -1,7 +1,6 @@
-package com.eazybytes.mcp.server.domain.entity;
+package com.eazybytes.springai.entity;
 
-import com.eazybytes.mcp.server.domain.enumerator.LoyaltyTier;
-import jakarta.persistence.Column;
+import com.eazybytes.springai.enumerator.TicketStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,37 +24,37 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "customers")
-public class Customer {
+@Table(name = "helpdesk_tickets")
+public class HelpDeskTicket {
 
-  @Id
+ @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String fullName;
+  private String username;
 
-  private String email;
-
-  private String phone;
-
-  private String preferredLanguage;
+  private String issue;
 
   @Enumerated(EnumType.STRING)
-  private LoyaltyTier loyaltyTier;
+  private TicketStatus status;
 
-  @Column(insertable = false, updatable = false)
   private LocalDateTime createdAt;
+
+  private LocalDateTime eta;
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof Customer customer)) {
+    if (!(o instanceof HelpDeskTicket that)) {
       return false;
     }
-    return Objects.equals(email, customer.email);
+    return Objects.equals(id, that.id) && Objects.equals(username, that.username)
+        && Objects.equals(issue, that.issue) && status == that.status
+        && Objects.equals(createdAt, that.createdAt) && Objects.equals(eta,
+        that.eta);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(email);
+    return Objects.hash(id, username, issue, status, createdAt, eta);
   }
 }
