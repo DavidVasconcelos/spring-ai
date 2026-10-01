@@ -1,5 +1,20 @@
 # From Java Dev to AI Engineer: Spring AI Fast Track
 
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-6DB33F?logo=springboot&logoColor=fff)](#) 
+[![Spring AI](https://img.shields.io/badge/SpringAI-2.0.1-8BC34A)](#) 
+[![Java](https://img.shields.io/badge/Java-25-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)
+[![Gradle](https://img.shields.io/badge/Gradle-9.7.1-209BC4)](#)
+
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](#)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff)](#)
+[![Redis](https://img.shields.io/badge/Redis-%23DD0031.svg?logo=redis&logoColor=white)](#)
+[![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?logo=prometheus&logoColor=white)](#)
+[![Grafana](https://img.shields.io/badge/Grafana-F46800?logo=grafana&logoColor=white)](#)
+
+[![ChatGPT](https://custom-icon-badges.demolab.com/badge/ChatGPT-74aa9c?logo=openai&logoColor=white)](#)
+[![Ollama](https://img.shields.io/badge/Ollama-fff?logo=ollama&logoColor=000)](#)
+
+
 ## 🌱 Spring AI Course – Resources & Reference Links
 
 My GitHub repository for the **[Spring AI Course](https://www.udemy.com/course/java-spring-ai/?referralCode=144430555105E7ADD679)**. This course helps you build intelligent applications using the Spring AI framework and integrate powerful LLMs like OpenAI into your Spring Boot apps.
