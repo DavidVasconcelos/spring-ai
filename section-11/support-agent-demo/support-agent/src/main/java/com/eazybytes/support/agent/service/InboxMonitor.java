@@ -8,7 +8,6 @@ import com.eazybytes.support.agent.configuration.InboxProperties;
 import com.eazybytes.support.agent.model.IncomingEmail;
 import com.eazybytes.support.agent.service.email.EmailHandler;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
